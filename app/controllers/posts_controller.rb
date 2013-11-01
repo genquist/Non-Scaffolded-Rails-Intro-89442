@@ -34,10 +34,23 @@ class PostsController < ApplicationController
     
   end # Only loads a view on error, otherwise redirects.
   
-  
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
     redirect_to :action => :index
   end # This action has no associated view. It always redirects.
+  
+  def edit
+    @post = Post.find(params[:id])
+  end # Load app/view/posts/edit.html.erb
+  
+  def update
+    @post = Post.find(params[:id])
+    @post.update_attributes(params[:post])
+    if @post.save
+      redirect_to :action => :index
+    else
+      render :action => :edit
+    end
+  end
 end
